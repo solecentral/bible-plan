@@ -77,10 +77,10 @@ export default function PlanPage() {
     .filter((m) => m.days.length > 0)
 
   return (
-    <div className="p-8 max-w-4xl mx-auto">
-      <div className="flex items-center justify-between mb-8">
+    <div className="p-4 sm:p-8 max-w-4xl mx-auto">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <h1 className="text-2xl font-semibold">Reading Plan</h1>
-        <div className="flex gap-1 bg-[#1A1A1A] border border-[#2A2A2A] rounded-lg p-1">
+        <div className="flex gap-1 bg-[#1A1A1A] border border-[#2A2A2A] rounded-lg p-1 self-start">
           {(["all", "incomplete", "completed"] as Filter[]).map((f) => (
             <button
               key={f}
@@ -123,7 +123,7 @@ export default function PlanPage() {
                 >
                   {/* Checkbox */}
                   <div
-                    className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 transition-colors ${
+                    className={`w-6 h-6 sm:w-5 sm:h-5 rounded border-2 flex items-center justify-center flex-shrink-0 transition-colors ${
                       isComplete
                         ? "bg-[#8B5CF6] border-[#8B5CF6]"
                         : "border-[#444] group-hover:border-[#666]"

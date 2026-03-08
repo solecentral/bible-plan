@@ -27,7 +27,7 @@ export default function BooksPage() {
   const selectedDays = selectedBook ? getDaysForBook(plan, selectedBook) : []
 
   return (
-    <div className="p-8 max-w-5xl mx-auto">
+    <div className="p-4 sm:p-8 max-w-5xl mx-auto">
       <h1 className="text-2xl font-semibold mb-8">Books of the Bible</h1>
 
       {/* Testament Sections */}
@@ -39,7 +39,7 @@ export default function BooksPage() {
               {testament === "OT" ? "Old Testament" : "New Testament"} —{" "}
               {testamentBooks.length} books
             </h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
               {testamentBooks.map((book) => {
                 const { read, total } = getBookProgress(plan, book.name, completed)
                 const pct = total > 0 ? Math.round((read / total) * 100) : 0
@@ -93,7 +93,7 @@ export default function BooksPage() {
 
       {/* Selected Book Detail */}
       {selectedBook && (
-        <div className="fixed bottom-0 left-56 right-0 bg-[#1A1A1A] border-t border-[#2A2A2A] p-5 z-10">
+        <div className="fixed bottom-0 left-0 right-0 md:left-56 bg-[#1A1A1A] border-t border-[#2A2A2A] p-5 z-10">
           <div className="max-w-5xl mx-auto">
             <div className="flex items-center justify-between mb-3">
               <h3 className="font-semibold">{selectedBook}</h3>

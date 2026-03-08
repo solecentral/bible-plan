@@ -87,22 +87,31 @@ export function getBooks() {
 
 export function generatePlan(): DayReading[] {
   const totalChapters = BOOKS.reduce((sum, b) => sum + b.chapters, 0) // 1189
-  const chaptersPerDay = Math.ceil(totalChapters / 365) // ~3-4
+  const totalDays = 365
+
+  // 1189 chapters across 365 days:
+  // 365 * 3 = 1095, remainder = 1189 - 1095 = 94
+  // So 94 days get 4 chapters, 271 days get 3 chapters
+  const extraDays = totalChapters - totalDays * 3 // 94 days get +1 chapter
+  // Spread the 4-chapter days evenly using a step interval
+  const step = totalDays / extraDays // ~3.88, so roughly every 4th day gets 4 chapters
 
   const plan: DayReading[] = []
-  let day = 1
   let bookIndex = 0
   let chapterInBook = 1
 
-  while (bookIndex < BOOKS.length) {
+  for (let day = 1; day <= totalDays; day++) {
+    // Determine target chapters for this day
+    const extraCount = Math.round((day / step)) - Math.round(((day - 1) / step))
+    const target = day === totalDays ? Infinity : 3 + extraCount
+
     const readings: Reading[] = []
     let chaptersToday = 0
-    const target = day <= 364 ? chaptersPerDay : Infinity // last day gets remainder
 
     while (chaptersToday < target && bookIndex < BOOKS.length) {
       const book = BOOKS[bookIndex]
       const remaining = book.chapters - chapterInBook + 1
-      const canTake = Math.min(remaining, target - chaptersToday)
+      const canTake = target === Infinity ? remaining : Math.min(remaining, target - chaptersToday)
 
       const startCh = chapterInBook
       const endCh = chapterInBook + canTake - 1
@@ -123,7 +132,6 @@ export function generatePlan(): DayReading[] {
 
     if (readings.length > 0) {
       plan.push({ day, readings, completed: false })
-      day++
     }
   }
 
